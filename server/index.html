@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.io with Rabbil</title>
+
+    <style>
+        body {
+            text-align: center;
+            color: #fff;
+            background-color: rgb(9, 11, 24);
+        }
+
+        input {
+            width: 250px;
+            height: 30px;
+            outline: none;
+            border: none;
+            font-size: 20px
+        }
+
+        button {
+            width: 80px;
+            height: 30px;
+            outline: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Hi Mahbub</h1>
+    <div>
+        <form onsubmit="myFunc(event)">
+            <input type="text" name="chat" id="chat">
+            <button type="submit">Send</button>
+        </form>
+        <div id="message_data">
+
+        </div>
+        <div id="buyNspData">
+
+        </div>
+        <div id="sellNspData">
+
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('buyNspData', payload => {
+            let sendMessage = '';
+            sendMessage += `<h1>${payload}</h1>`
+            document.getElementById("buyNspData").innerHTML += sendMessage;
+        }) 
+
+        socket.on('sellNspData', payload => {
+            let sendMessage = '';
+            sendMessage += `<h1>${payload}</h1>`
+            document.getElementById("sellNspData").innerHTML += `<h1>${payload}</h1>`;
+        }) 
+
+
+        // function myFunc(e) {
+        //     e.preventDefault();
+        //     const chat = document.getElementById("chat").value;
+        //     socket.emit('sendChat', chat);
+        //     document.getElementById("chat").value = ''
+        // }
+
+
+        // socket.on('returnChat', payload => {
+        //     let sendMessage = '';
+        //     sendMessage += `<h1>${payload}</h1>`
+        //     document.getElementById("message_data").innerHTML += sendMessage;
+        // }) 
+
+    </script>
+
+</body>
+
+</html>
