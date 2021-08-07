@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+    <title>Socket Chat App with Rabbil</title>
+    <style>
+        body {
+            background-color: rgb(9, 11, 24);
+        }
+
+        input,
+        button {
+            height: 50px;
+            border: none;
+            outline: none;
+            font-size: 20px;
+        }
+
+        #msg {
+            width: 80%;
+            padding: 0 5px;
+            margin-right: -5px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .send_btn {
+            width: 20%;
+            color: white;
+            background-color: #0b5ed7;
+        }
+
+        .msg_container {
+            overflow: auto;
+            overflow-x: visible;
+            height: 350px;
+            margin: 20px 0;
+            border-bottom: 2px solid gray;
+        }
+
+        #msgHistory {
+            padding-right: 5px;
+        }
+
+        #msgHistory li {
+            width: fit-content;
+            padding: 5px 10px;
+            list-style-type: none;
+            font-size: 17px;
+            border-radius: 5px;
+        }
+
+        #msgHistory li span {
+            width: 100px;
+            display: block;
+            margin-left: auto;
+        }
+
+        #msgHistory li:nth-child(2n + 1) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .form_container {
+            background: transparent;
+            box-shadow: -1px 3px 19px 3px rgba(0, 0, 0, 0.38);
+            -webkit-box-shadow: -1px 3px 19px 3px rgba(0, 0, 0, 0.38);
+            -moz-box-shadow: -1px 3px 19px 3px rgba(0, 0, 0, 0.38);
+        }
+
+        @media screen and (max-width: 600px) {
+            .chat_container {
+                width: 90%;
+            }
+        }
+
+        @media screen and (max-width: 992px) {
+            #msg {
+                width: 70%;
+            }
+
+            .send_btn {
+                width: 30%;
+            }
+        }
+    </style>
+</head>
+
+<div class="container">
+    <h1 class='text-center text-light mt-2'>Welcome to First Chat App</h1>
+    <div class='mt-5'>
+        <div class="row d-flex justify-content-center">
+            <div class="chat_container bg-light col-md-6 col-lg-6 col-12">
+                <div class='msg_container'>
+                    <ul id="msgHistory">
+
+                    </ul>
+                </div>
+                <div class='form_container mt-2 mb-2'>
+                    <form onsubmit="sendMsg(event)">
+                        <input id="msg" placeholder="Type Your Message" />
+                        <button type="submit" class="send_btn ps-4 pe-4">Send</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<p  class="text-center text-light mt-5">By-<a href="http://mahbubhasanhira.com/" target="_blank"> Mahbub Hasan Hira</a></p>
+<body>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        function sendMsg(e) {
+            e.preventDefault();
+            const msgInput = document.getElementById('msg');
+            if (msgInput.value !== '') {
+                socket.emit('chat', msgInput.value);
+                msgInput.value = ''
+            }
+        }
+        socket.on('cocking', payload => {
+            let listItem = document.createElement('li');
+            listItem.innerHTML = `${payload} <span>${new Date().toLocaleTimeString()}</span`;
+
+            const msgHistory = document.getElementById('msgHistory');
+            msgHistory.append(listItem);
+        })
+    </script>
+</body>
+
+</html>
