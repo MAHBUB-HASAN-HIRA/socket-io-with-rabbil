@@ -2,5 +2,4 @@
 /socket-chat-app/node_modules
 /socket-chat-room/node_modules
 /socket-react-express/client/node_modules
-/socket-react-express/client/build
 /socket-react-express/server/node_modules
